@@ -1,0 +1,44 @@
+###################################################
+# Namespace Gitea
+###################################################
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gitea-repo
+
+###############################
+# Deplyoment Gitea
+###############################
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea
+  namespace: gitea-repo
+  labels:
+    app: gitea
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitea
+  template:
+    metadata:
+      labels:
+        app: gitea
+    spec:
+      containers:
+      - name: gitea
+        image: gitea/gitea:1.16.5-linux-arm64
+        ports:
+        - containerPort: 3000
+          name: gitea
+        - containerPort: 22
+          name: git-ssh
+        volumeMounts:
+        - mountPath: /data
+          name: git-data
+      volumes:
+      - name: git-data
+        persistentVolumeClaim:
+          claimName: git-pvc
