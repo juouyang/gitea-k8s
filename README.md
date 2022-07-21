@@ -6,6 +6,7 @@ Deploy gitea on your k8s with kubectl
 k create ns gitea
 k create --save-config -f 010-statefulset.yaml -n gitea
 k create --save-config -f 020-network.yaml -n gitea
+k create --save-config -f 030-resourcequota.yaml -n gitea
 ```
 ## Update
 ```
