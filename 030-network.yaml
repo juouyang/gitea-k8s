@@ -6,7 +6,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: gitea-service
-  namespace: gitea-repo
+  namespace: gitea
 spec:
   selector:
     app: gitea
@@ -25,7 +25,7 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: git-tls
-  namespace: gitea-repo
+  namespace: gitea
 spec:
   ingressClassName: nginx
   tls:
