@@ -30,9 +30,9 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - gitea.apps.myoci.cf
+    - gitea.apps.<base_domain>
   rules:
-  - host: gitea.apps.myoci.cf
+  - host: gitea.apps.<base_domain>
     http:
       paths:
       - path: /

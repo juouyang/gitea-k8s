@@ -1,0 +1,18 @@
+helm repo add gitea-charts https://dl.gitea.io/charts/
+helm repo update
+
+kubectl create ns gitea && kubens gitea
+
+helm install gitea gitea-charts/gitea --namespace gitea \
+--set ingress.enabled=true,ingress.className=nginx \
+--set ingress.hosts[0].host=gitea.apps.<base_domain> \
+--set ingress.hosts[0].paths[0].path=/ \
+--set ingress.hosts[0].paths[0].pathType=Prefix \
+--set ingress.tls[0].hosts[0]=gitea.apps.<base_domain> \
+--set persistence.size=3Gi \
+--set memcached.enabled=false \
+--set postgresql.enabled=false \
+--set nodeSelector."kubernetes\.io/arch"=arm64 \
+--set image.tag=1.16.7-linux-arm64
+
+helm uninstall gitea && k delete pvc --all

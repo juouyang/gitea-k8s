@@ -7,11 +7,11 @@ metadata:
   name: gitea
 
 ###############################
-# Deplyoment Gitea
+# StatefulSet Gitea
 ###############################
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: gitea
   namespace: gitea
@@ -19,6 +19,7 @@ metadata:
     app: gitea
 spec:
   replicas: 1
+  serviceName: gitea-service
   selector:
     matchLabels:
       app: gitea
@@ -38,7 +39,14 @@ spec:
         volumeMounts:
         - mountPath: /data
           name: git-data
-      volumes:
-      - name: git-data
-        persistentVolumeClaim:
-          claimName: git-pvc
+
+  volumeClaimTemplates:
+    - metadata:
+        name: git-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        volumeMode: Filesystem
+        resources:
+          requests:
+            storage: 3Gi
+
