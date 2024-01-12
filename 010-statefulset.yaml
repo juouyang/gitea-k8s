@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: gitea
-        image: gitea/gitea:1.16.7-linux-arm64
+        image: gitea/gitea:1.20.5-linux-arm64
         ports:
         - containerPort: 3000
           name: gitea
