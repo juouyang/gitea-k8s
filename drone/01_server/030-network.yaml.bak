@@ -1,0 +1,24 @@
+###################################################
+# Ingress
+###################################################
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: drone-tls
+  namespace: drone
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - drone.apps.<base_domain>
+  rules:
+  - host: drone.apps.<base_domain>
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: drone
+            port:
+              number: 80

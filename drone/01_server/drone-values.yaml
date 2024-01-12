@@ -1,0 +1,40 @@
+env:
+  ## REQUIRED: Set the user-visible Drone hostname, sans protocol.
+  ## Ref: https://docs.drone.io/installation/reference/drone-server-host/
+  ##
+  DRONE_SERVER_HOST: drone.apps.<base_domain>
+  ## The protocol to pair with the value in DRONE_SERVER_HOST (http or https).
+  ## Ref: https://docs.drone.io/installation/reference/drone-server-proto/
+  ##
+  DRONE_SERVER_PROTO: https
+  ## REQUIRED: Set the secret secret token that the Drone server and its Runners will use
+  ## to authenticate. This is commented out in order to leave you the ability to set the
+  ## key via a separately provisioned secret (see existingSecretName above).
+  ## Ref: https://docs.drone.io/installation/reference/drone-rpc-secret/
+  ##
+  DRONE_RPC_SECRET: $YOUR_DRONE_RPC_SECRET
+
+  ## GITEA
+  ##
+  DRONE_GITEA_CLIENT_ID: $YOUR_DRONE_GITEA_CLIENT_ID
+  DRONE_GITEA_CLIENT_SECRET: $YOUR_DRONE_GITEA_CLIENT_SECRET
+  DRONE_GITEA_SERVER: https://gitea.apps.<base_domain>
+  # DRONE_GIT_ALWAYS_AUTH:
+
+
+## If you'd like to create an ingress in front of the Drone server, you can enable it
+## here. Please refer to your service provider's documenatation for any configuration
+## that is specific to their ingress implementation.
+## Ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: drone.apps.<base_domain>
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+      - drone.apps.<base_domain>
